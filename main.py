@@ -19,6 +19,7 @@ cvv = CONFIG.get('ORDER', 'CVV')
 
 url = CONFIG.get('ORDER', 'URL')
 product_name = CONFIG.get('ORDER', 'PRODUCT')
+product_asin = CONFIG.get('ORDER', 'ASIN')
 
 driver = webdriver.Chrome(driver_path)
 driver.maximize_window()
@@ -36,6 +37,8 @@ def submitLoginDetails():
     email_inp.send_keys(user_email)
     driver.find_element_by_id("continue").click()
     time.sleep(0.5)
+    driver.find_element_by_class_name("a-checkbox-label").click()
+    time.sleep(0.1)
     pass_inp = driver.find_element_by_id("ap_password")
     pass_inp.clear()
     pass_inp.send_keys(user_pass)
@@ -46,12 +49,22 @@ def findProduct():
     searchbox.clear()
     searchbox.send_keys(product_name)
     searchbox.send_keys(Keys.RETURN)
+    product = driver.find_element_by_link_text(product_name)
+    print(product)
+    product.click()
+
+def buyNow():
+    button = driver.find_element_by_id("add-to-cart-button")
+    button.click()
+    time.sleep(0.1)
 
 def run():
     openLoginPage()
-    time.sleep(1)
+    time.sleep(0.5)
     submitLoginDetails()
     time.sleep(0.2)
-    findProduct()
+    #findProduct()
+    #time.sleep(0.3)
+    buyNow()
 
 run()

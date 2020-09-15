@@ -22,21 +22,13 @@ product_name = CONFIG.get('ORDER', 'PRODUCT')
 
 driver = webdriver.Chrome(driver_path)
 driver.maximize_window()
-driver.get("https://amazon.in")
+driver.get(url)
 
 def openLoginPage():
-    try:
-        print("Logging In..")
-        try:
-            driver.find_element_by_id("nav-link-accountList").click()
-            print('Login Button Clickable')
-        except:
-            print('Login Button Not Clickable')
-        print('Login Button Clicked Successfully')
-    except:
-        print('Login Failed. Retrying.')
-        time.sleep(0.5)	
-        openLoginPage()
+    print("Logging In..")
+    driver.find_element_by_id("nav-link-accountList").click()
+    print('Login Button Clicked Successfully')
+    
 
 def submitLoginDetails():
     email_inp = driver.find_element_by_id("ap_email")

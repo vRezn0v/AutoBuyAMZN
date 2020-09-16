@@ -59,10 +59,8 @@ def initiatePurchase():
     button.click()
 
 def makePayment():
-    try:
-        card = driver.find_element_by_xpath("//span[@data-number='" + cardDetails + "']")
-    except:
-        card = driver.find_element_by_xpath('//span[@data-number="' + cardDetails + '"]')
+    time.sleep(3)
+    card = driver.find_element_by_xpath("//span[@data-number='" + cardDetails + "']")
     time.sleep(0.5)
     print("Yeet")
     card.click()
@@ -70,14 +68,16 @@ def makePayment():
     cvv_input.send_keys(cvv)
     pay_button = driver.find_element_by_xpath("//input[@class='a-button-input a-button-text' and @type='submit' and @name='ppw-widgetEvent:SetPaymentPlanSelectContinueEvent']")
     pay_button.click()
-    driver.find_element_by_xpath("//input[@class='a-button-text place-your-order-button']").click()
+    time.sleep(10)
+    finalbtn = driver.find_element_by_name("placeYourOrder1")
+    print("BONK")
+    #finalbtn.click()
 
 def run():
     openLoginPage()
     time.sleep(0.5)
     submitLoginDetails()
     time.sleep(0.2)
-    #findProduct()
     initiatePurchase()
     time.sleep(5)
     makePayment()

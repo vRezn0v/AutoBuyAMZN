@@ -16,6 +16,7 @@ user_email = CONFIG.get('CREDS', 'USERNAME')
 user_pass = CONFIG.get('CREDS', 'PASSWORD')
 
 cvv = CONFIG.get('ORDER', 'CVV') 
+cardDetails = CONFIG.get('ORDER', 'CARD')
 
 url = CONFIG.get('ORDER', 'URL')
 product_name = CONFIG.get('ORDER', 'PRODUCT')
@@ -32,13 +33,13 @@ def openLoginPage():
     
 
 def submitLoginDetails():
+    time.sleep(1)
     email_inp = driver.find_element_by_id("ap_email")
     email_inp.clear()
     email_inp.send_keys(user_email)
     driver.find_element_by_id("continue").click()
     time.sleep(0.5)
     driver.find_element_by_class_name("a-checkbox-label").click()
-    time.sleep(0.1)
     pass_inp = driver.find_element_by_id("ap_password")
     pass_inp.clear()
     pass_inp.send_keys(user_pass)
@@ -49,14 +50,27 @@ def findProduct():
     searchbox.clear()
     searchbox.send_keys(product_name)
     searchbox.send_keys(Keys.RETURN)
-    product = driver.find_element_by_link_text(product_name)
+    product = driver.find_element_by_partial_link_text(product_name)
     print(product)
     product.click()
 
-def buyNow():
-    button = driver.find_element_by_id("add-to-cart-button")
+def initiatePurchase():
+    button = driver.find_element_by_id("buy-now-button")
     button.click()
-    time.sleep(0.1)
+
+def makePayment():
+    try:
+        card = driver.find_element_by_xpath("//span[@data-number='" + cardDetails + "']")
+    except:
+        card = driver.find_element_by_xpath('//span[@data-number="' + cardDetails + '"]')
+    time.sleep(0.5)
+    print("Yeet")
+    card.click()
+    cvv_input = driver.find_element_by_xpath("//input[@type='password' and @class='a-input-text a-form-normal a-width-small a-form-error']")
+    cvv_input.send_keys(cvv)
+    pay_button = driver.find_element_by_xpath("//input[@class='a-button-input a-button-text' and @type='submit' and @name='ppw-widgetEvent:SetPaymentPlanSelectContinueEvent']")
+    pay_button.click()
+    driver.find_element_by_xpath("//input[@class='a-button-text place-your-order-button']").click()
 
 def run():
     openLoginPage()
@@ -64,7 +78,9 @@ def run():
     submitLoginDetails()
     time.sleep(0.2)
     #findProduct()
-    #time.sleep(0.3)
-    buyNow()
+    initiatePurchase()
+    time.sleep(5)
+    makePayment()
+    print('\007')
 
 run()

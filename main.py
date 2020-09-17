@@ -70,8 +70,7 @@ def makePayment():
     pay_button.click()
     time.sleep(10)
     finalbtn = driver.find_element_by_name("placeYourOrder1")
-    print("BONK")
-    #finalbtn.click()
+    finalbtn.click()
 
 def run():
     openLoginPage()

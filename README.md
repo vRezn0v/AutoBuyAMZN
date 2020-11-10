@@ -32,3 +32,8 @@ A Script to Order a specified product from Amazon. Works in combination with Chr
 3. Install the dependencies. ```pip install -r requirements.txt```
 4. Edit `config.ini` according to your requirements.
 5. Run the Script or Schedule it with Task Scheduler.
+
+### Todo:
+- Add GUI
+- Add support for other websites
+- Add an auto scheduler
